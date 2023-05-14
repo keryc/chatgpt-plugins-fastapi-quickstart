@@ -1,0 +1,159 @@
+openapi: 3.0.2
+info:
+  title: FastAPI
+  version: 0.1.0
+paths:
+  /todos/{username}:
+    get:
+      summary: Get Todos
+      operationId: get_todos_todos__username__get
+      parameters:
+        - required: true
+          schema:
+            title: Username
+            type: string
+          name: username
+          in: path
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                title: Response Get Todos Todos  Username  Get
+                type: array
+                items:
+                  type: string
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      summary: Add Todo
+      operationId: add_todo_todos__username__post
+      parameters:
+        - required: true
+          schema:
+            title: Username
+            type: string
+          name: username
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoItem'
+        required: true
+      responses:
+        '201':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                title: Response Add Todo Todos  Username  Post
+                type: object
+                additionalProperties:
+                  type: string
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      summary: Delete Todo
+      operationId: delete_todo_todos__username__delete
+      parameters:
+        - required: true
+          schema:
+            title: Username
+            type: string
+          name: username
+          in: path
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TodoIndex'
+        required: true
+      responses:
+        '204':
+          description: Successful Response
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /logo.png:
+    get:
+      summary: Plugin Logo
+      operationId: plugin_logo_logo_png_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /openapi.yaml:
+    get:
+      summary: Openapi Spec
+      operationId: openapi_spec_openapi_yaml_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+components:
+  schemas:
+    HTTPValidationError:
+      title: HTTPValidationError
+      type: object
+      properties:
+        detail:
+          title: Detail
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    TodoIndex:
+      title: TodoIndex
+      required:
+        - todo_idx
+      type: object
+      properties:
+        todo_idx:
+          title: Todo Idx
+          type: integer
+    TodoItem:
+      title: TodoItem
+      required:
+        - todo
+      type: object
+      properties:
+        todo:
+          title: Todo
+          type: string
+    ValidationError:
+      title: ValidationError
+      required:
+        - loc
+        - msg
+        - type
+      type: object
+      properties:
+        loc:
+          title: Location
+          type: array
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+        msg:
+          title: Message
+          type: string
+        type:
+          title: Error Type
+          type: string
